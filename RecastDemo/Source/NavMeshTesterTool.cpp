@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 #include "SDL.h"
 #include "SDL_opengl.h"
 #ifdef __APPLE__
@@ -37,6 +38,9 @@
 #include "DetourNavMeshBuilder.h"
 #include "DetourDebugDraw.h"
 #include "DetourCommon.h"
+#include "InputGeom.h"
+#include "tinyxml2.h"
+using namespace tinyxml2;
 
 #ifdef WIN32
 #	define snprintf _snprintf
@@ -387,6 +391,7 @@ void NavMeshTesterTool::handleMenu()
 				m_nrandPoints++;
 			}
 		}
+		saveRandPoints();
 	}
 	if (imguiButton("Make Random Points Around", m_sposSet))
 	{
@@ -405,6 +410,7 @@ void NavMeshTesterTool::handleMenu()
 					m_nrandPoints++;
 				}
 			}
+			saveRandPoints();
 		}
 	}
 
@@ -477,6 +483,7 @@ void NavMeshTesterTool::handleClick(const float* /*s*/, const float* p, bool shi
 		m_eposSet = true;
 		dtVcopy(m_epos, p);
 	}
+	m_sample->getContext()->log(RC_LOG_PROGRESS, "ps  %2f %2f %2f   \n", -p[0], p[1], p[2]);
 	recalc();
 }
 
@@ -1417,4 +1424,32 @@ void NavMeshTesterTool::drawAgent(const float* pos, float r, float h, float c, c
 	dd.end();
 	
 	dd.depthMask(true);
+}
+
+void NavMeshTesterTool::saveRandPoints()
+{
+	std::string meshFileName = m_sample->getInputGeom()->getMesh()->getFileName();
+	size_t extensionPos = meshFileName.find_last_of('.');
+	if (extensionPos == std::string::npos)
+		return;
+	std::string xmlPath = meshFileName.substr(0, extensionPos) + ".xml";
+	FILE *fp = NULL;
+	fp = fopen(xmlPath.c_str(), "w+");
+	fclose(fp);
+	XMLDocument doc;
+	doc.LoadFile(xmlPath.c_str());
+	XMLDeclaration* declaration = doc.NewDeclaration();//添加xml文件头申明
+	doc.InsertFirstChild(declaration);
+	XMLElement *Root = doc.NewElement("root");
+	doc.InsertEndChild(Root);
+	for (int i = 0; i < MAX_RAND_POINTS; i++) {
+		XMLElement *point = doc.NewElement("point");
+		point->SetAttribute("ID", i+1);
+		std::string posstr = std::to_string(-m_randPoints[3 * i]) + 
+			"," + std::to_string(m_randPoints[3 * i + 1]) + "," + 
+			std::to_string(m_randPoints[3 * i + 2]);
+		point->SetAttribute("pos", posstr.c_str());
+		Root->InsertEndChild(point);
+	}
+	doc.SaveFile(xmlPath.c_str());
 }

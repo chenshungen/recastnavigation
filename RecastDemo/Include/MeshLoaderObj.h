@@ -52,5 +52,5 @@ private:
 	int m_vertCount;
 	int m_triCount;
 };
-
+extern float g_offsetY;
 #endif // MESHLOADER_OBJ

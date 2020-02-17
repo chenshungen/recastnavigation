@@ -136,6 +136,7 @@ static int parseFace(char* row, int* data, int n, int vcnt)
 	return j;
 }
 
+float g_offsetY = 0;
 bool rcMeshLoaderObj::load(const std::string& filename)
 {
 	char* buf = 0;
@@ -193,7 +194,7 @@ bool rcMeshLoaderObj::load(const std::string& filename)
 		{
 			// Vertex pos
 			sscanf(row+1, "%f %f %f", &x, &y, &z);
-			addVertex(x, y, z, vcap);
+			addVertex(x, y+g_offsetY, z, vcap);
 		}
 		if (row[0] == 'f')
 		{

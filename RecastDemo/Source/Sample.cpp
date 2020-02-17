@@ -341,6 +341,13 @@ struct NavMeshTileHeader
 
 dtNavMesh* Sample::loadAll(const char* path)
 {
+	// 通过文件名load对应的文件
+	std::string meshFileName = m_geom->getMesh()->getFileName();
+	size_t extensionPos = meshFileName.find_last_of('.');
+	if (extensionPos == std::string::npos)
+		return 0;
+	std::string cacheFile = meshFileName.substr(0, extensionPos) + ".bin";
+	path = cacheFile.c_str();
 	FILE* fp = fopen(path, "rb");
 	if (!fp) return 0;
 
@@ -412,6 +419,13 @@ dtNavMesh* Sample::loadAll(const char* path)
 void Sample::saveAll(const char* path, const dtNavMesh* mesh)
 {
 	if (!mesh) return;
+
+	std::string meshFileName = m_geom->getMesh()->getFileName();
+	size_t extensionPos = meshFileName.find_last_of('.');
+	if (extensionPos == std::string::npos)
+		return;
+	std::string cacheFile = meshFileName.substr(0, extensionPos) + ".bin";
+	path = cacheFile.c_str();
 
 	FILE* fp = fopen(path, "wb");
 	if (!fp)

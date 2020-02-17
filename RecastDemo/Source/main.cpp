@@ -548,6 +548,7 @@ int main(int /*argc*/, char** /*argv*/)
 			}
 			
 			imguiSeparator();
+			imguiSlider("offsetY", &g_offsetY, -1.0f, 1.0f, 0.01f);
 			imguiLabel("Input Mesh");
 			if (imguiButton(meshName.c_str()))
 			{
