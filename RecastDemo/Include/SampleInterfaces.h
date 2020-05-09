@@ -35,7 +35,7 @@ class BuildContext : public rcContext
 	static const int MAX_MESSAGES = 1000;
 	const char* m_messages[MAX_MESSAGES];
 	int m_messageCount;
-	static const int TEXT_POOL_SIZE = 8000;
+	static const int TEXT_POOL_SIZE = 800000;
 	char m_textPool[TEXT_POOL_SIZE];
 	int m_textPoolSize;
 	

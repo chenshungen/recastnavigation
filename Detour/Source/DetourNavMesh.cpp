@@ -257,7 +257,7 @@ dtStatus dtNavMesh::init(const dtNavMeshParams* params)
 	// Only allow 31 salt bits, since the salt mask is calculated using 32bit uint and it will overflow.
 	m_saltBits = dtMin((unsigned int)31, 32 - m_tileBits - m_polyBits);
 
-	if (m_saltBits < 10)
+	if (m_saltBits < 8)
 		return DT_FAILURE | DT_INVALID_PARAM;
 #endif
 	

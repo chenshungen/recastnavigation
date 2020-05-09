@@ -168,7 +168,8 @@ int main(int /*argc*/, char** /*argv*/)
 	string sampleName = "Choose Sample...";
 	
 	vector<string> files;
-	const string meshesFolder = "Meshes";
+	//const string meshesFolder = "Meshes";
+	const string meshesFolder = "navmesh";
 	string meshName = "Choose Mesh...";
 	
 	float markerPosition[3] = {0, 0, 0};

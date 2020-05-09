@@ -255,7 +255,8 @@ void duDebugDrawNavMeshWithClosedList(struct duDebugDraw* dd, const dtNavMesh& m
 	for (int i = 0; i < mesh.getMaxTiles(); ++i)
 	{
 		const dtMeshTile* tile = mesh.getTile(i);
-		if (!tile->header) continue;
+		if (!tile->header) 
+			continue;
 		drawMeshTile(dd, mesh, q, tile, flags);
 	}
 }
