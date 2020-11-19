@@ -483,7 +483,8 @@ void NavMeshTesterTool::handleClick(const float* /*s*/, const float* p, bool shi
 		m_eposSet = true;
 		dtVcopy(m_epos, p);
 	}
-	m_sample->getContext()->log(RC_LOG_PROGRESS, "ps  %2f %2f %2f   \n", -p[0], p[1], p[2]);
+	
+	m_sample->getContext()->log(RC_LOG_PROGRESS, "ps  %2f %2f %2f dist %2f  \n", -p[0], p[1], p[2], dtVdist(m_spos, m_epos));
 	recalc();
 }
 
