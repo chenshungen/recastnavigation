@@ -36,6 +36,11 @@ public class EditorObjExporter : ScriptableObject
     private static string MeshToString(MeshFilter mf, Dictionary<string, ObjMaterial> materialList)
     {
         Mesh m = mf.sharedMesh;
+
+        if (mf.GetComponent<Renderer>() == null) {
+            return "";
+        }
+
         Material[] mats = mf.GetComponent<Renderer>().sharedMaterials;
 
         StringBuilder sb = new StringBuilder();
@@ -210,14 +215,14 @@ public class EditorObjExporter : ScriptableObject
         }
         catch
         {
-            EditorUtility.DisplayDialog("Error!", "Failed to create target folder!", "");
+            EditorUtility.DisplayDialog("Error!", "Failed to create target folder!", "OK");
             return false;
         }
 
         return true;
     }
 
-    [MenuItem("Tools/导出地图网格/导出所有选中的寻路网格")]
+    [MenuItem("ProjectM/服务器相关/导出所有选中的网格数据")]
     static void ExportWholeSelectionToSingle()
     {
         if (!CreateTargetFolder())
@@ -228,7 +233,7 @@ public class EditorObjExporter : ScriptableObject
 
         if (selection.Length == 0)
         {
-            EditorUtility.DisplayDialog("No source object selected!", "Please select one or more target objects", "");
+            EditorUtility.DisplayDialog("No source object selected!", "Please select one or more target objects", "OK");
             return;
         }
 
@@ -266,10 +271,10 @@ public class EditorObjExporter : ScriptableObject
             MeshesToFile(mf, targetFolder, filename);
 
 
-            EditorUtility.DisplayDialog("Objects exported", "Exported " + exportedObjects + " objects to " + filename, "");
+            EditorUtility.DisplayDialog("Objects exported", "Exported " + exportedObjects + " objects to " + filename, "OK");
         }
         else
-            EditorUtility.DisplayDialog("Objects not exported", "Make sure at least some of your selected objects have mesh filters!", "");
+            EditorUtility.DisplayDialog("Objects not exported", "Make sure at least some of your selected objects have mesh filters!", "OK");
     }
 
 
@@ -283,7 +288,7 @@ public class EditorObjExporter : ScriptableObject
 
         if (selection.Length == 0)
         {
-            EditorUtility.DisplayDialog("No source object selected!", "Please select one or more target objects", "");
+            EditorUtility.DisplayDialog("No source object selected!", "Please select one or more target objects", "OK");
             return;
         }
 
@@ -301,9 +306,9 @@ public class EditorObjExporter : ScriptableObject
         }
 
         if (exportedObjects > 0)
-            EditorUtility.DisplayDialog("Objects exported", "Exported " + exportedObjects + " objects", "");
+            EditorUtility.DisplayDialog("Objects exported", "Exported " + exportedObjects + " objects", "OK");
         else
-            EditorUtility.DisplayDialog("Objects not exported", "Make sure at least some of your selected objects have mesh filters!", "");
+            EditorUtility.DisplayDialog("Objects not exported", "Make sure at least some of your selected objects have mesh filters!", "OK");
     }
 
 
@@ -317,7 +322,7 @@ public class EditorObjExporter : ScriptableObject
 
         if (selection.Length == 0)
         {
-            EditorUtility.DisplayDialog("No source object selected!", "Please select one or more target objects", "");
+            EditorUtility.DisplayDialog("No source object selected!", "Please select one or more target objects", "OK");
             return;
         }
 
@@ -341,10 +346,10 @@ public class EditorObjExporter : ScriptableObject
 
         if (exportedObjects > 0)
         {
-            EditorUtility.DisplayDialog("Objects exported", "Exported " + exportedObjects + " objects", "");
+            EditorUtility.DisplayDialog("Objects exported", "Exported " + exportedObjects + " objects", "OK");
         }
         else
-            EditorUtility.DisplayDialog("Objects not exported", "Make sure at least some of your selected objects have mesh filters!", "");
+            EditorUtility.DisplayDialog("Objects not exported", "Make sure at least some of your selected objects have mesh filters!", "OK");
     }
 
 }
